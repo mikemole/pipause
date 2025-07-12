@@ -1,0 +1,17 @@
+[Unit]
+Description=Pi-hole Pause Button Service (pipause via venv)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/pipause/venv/bin/python /opt/pipause/main.py
+WorkingDirectory=/opt/pipause
+EnvironmentFile=/opt/pipause/.env
+Environment=PIHOLE_API_URL=http://pi.hole/api
+ExecStartPre=/bin/sleep 5
+Restart=on-failure
+User=pi
+Group=pi
+
+[Install]
+WantedBy=multi-user.target
