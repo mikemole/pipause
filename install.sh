@@ -25,9 +25,9 @@ echo "PIHOLE_API_KEY=\"$API_KEY\"" | sudo tee "$INSTALL_DIR/.env" > /dev/null
 echo "🐍 Setting up Python virtual environment..."
 sudo apt-get update
 sudo apt-get install -y python3-venv
-sudo python3 -m venv "$VENV_DIR"
+sudo python3 -m venv --system-site-packages "$VENV_DIR"
 sudo "$VENV_DIR/bin/pip" install --upgrade pip
-sudo "$VENV_DIR/bin/pip" install gpiozero requests
+sudo "$VENV_DIR/bin/pip" install gpiozero requests python3-rpi.gpio
 
 # Ensure 'pi' user exists, create if needed (no password, no login shell)
 if ! id -u pi >/dev/null 2>&1; then
