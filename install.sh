@@ -29,6 +29,12 @@ sudo python3 -m venv "$VENV_DIR"
 sudo "$VENV_DIR/bin/pip" install --upgrade pip
 sudo "$VENV_DIR/bin/pip" install gpiozero requests
 
+# Ensure 'pi' user exists, create if needed (no password, no login shell)
+if ! id -u pi >/dev/null 2>&1; then
+  echo "👤 Creating 'pi' user..."
+  sudo useradd -r -s /usr/sbin/nologin pi
+fi
+
 # Copy systemd service file
 echo "🛠️  Configuring systemd..."
 sudo cp "$SCRIPT_DIR/$SERVICE_FILE" "/etc/systemd/system/$SERVICE_FILE"

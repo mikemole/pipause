@@ -35,7 +35,7 @@
 1. **Clone the repo** on your Raspberry Pi:
 
    ```bash
-   git clone https://github.com/yourusername/pipause.git
+   git clone https://github.com/mikemole/pipause.git
    cd pipause
    ```
 
