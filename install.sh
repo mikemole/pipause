@@ -4,7 +4,6 @@ set -e
 
 SERVICE_NAME="pipause"
 INSTALL_DIR="/opt/$SERVICE_NAME"
-VENV_DIR="$INSTALL_DIR/venv"
 SERVICE_FILE="$SERVICE_NAME.service"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -21,19 +20,19 @@ sudo chmod +x "$INSTALL_DIR/main.py"
 # Create .env file with API key
 echo "PIHOLE_API_KEY=\"$API_KEY\"" | sudo tee "$INSTALL_DIR/.env" > /dev/null
 
-# Install virtualenv and create venv
-echo "🐍 Setting up Python virtual environment..."
+# Ensure required packages are installed
+echo "📦 Installing system dependencies..."
 sudo apt-get update
-sudo apt-get install -y python3-venv
-sudo python3 -m venv --system-site-packages "$VENV_DIR"
-sudo "$VENV_DIR/bin/pip" install --upgrade pip
-sudo "$VENV_DIR/bin/pip" install gpiozero requests python3-rpi.gpio
+sudo apt-get install -y python3 python3-pip python3-gpiozero python3-requests
 
 # Ensure 'pi' user exists, create if needed (no password, no login shell)
 if ! id -u pi >/dev/null 2>&1; then
   echo "👤 Creating 'pi' user..."
   sudo useradd -r -s /usr/sbin/nologin pi
 fi
+
+# Add pi user to gpio group
+sudo usermod -aG gpio pi
 
 # Copy systemd service file
 echo "🛠️  Configuring systemd..."

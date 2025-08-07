@@ -6,7 +6,6 @@
 - An **LED** to indicate pause status
 - The official Pi-hole API with app-password authentication
 - A `systemd` service to run automatically on boot
-- An isolated Python virtual environment
 
 ---
 
